@@ -1,8 +1,8 @@
 {
-  "name": "vimeo-player",
-  "version": "0.0.3",
+  "name": "athena-vimeo",
+  "version": "0.1.0",
   "authors": [
-    "Benjamin Mosnier<bm@kappuccino.org>"
+    "Carlos Araya <carlos.araya@gmail.com"
   ],
   "description": "A simple way ton include responsive videos from vimeo.com using Polymer",
   "keywords": [
@@ -14,16 +14,20 @@
   ],
   "main": "vimeo-player.html",
   "license": "MIT",
-  "homepage": "https://github.com/kappuccino/vimeo-player/",
+  "homepage": "",
   "ignore": [
     "/.*",
     "/tests/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^0.4.1",
-    "core-elements": "Polymer/core-elements#~0.4.2"
+    "polymer": "Polymer/polymer#^1.1.0",
+    "iron-component-page": "PolymerElements/iron-component-page#~1.1.2"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^0.7.3"
+  },
+  "private": true,
+  "resolutions": {
+    "polymer": "^1.2.0"
   }
 }
