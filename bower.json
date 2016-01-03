@@ -4,13 +4,14 @@
   "authors": [
     "Carlos Araya <carlos.araya@gmail.com"
   ],
-  "description": "A simple way ton include responsive videos from vimeo.com using Polymer",
+  "description": "Playing Vimeo videos using Polymer",
   "keywords": [
     "web-component",
     "web-components",
     "polymer",
     "vimeo",
-    "responsive"
+    "responsive",
+    "video"
   ],
   "main": "vimeo-player.html",
   "license": "MIT",
@@ -26,8 +27,6 @@
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^0.7.3"
   },
-  "private": true,
-  "resolutions": {
-    "polymer": "^1.2.0"
-  }
+  "private": true
+
 }
