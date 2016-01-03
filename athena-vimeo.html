@@ -17,23 +17,20 @@ You can specify `height` or `width` or be mobile friendly and use `responsive` i
   <link rel="stylesheet" href="athena-vimeo.css" type="text/css">
 
   <template>
-    <div id="wrapper">
-      <iframe
-        src="//player.vimeo.com/video{{videoid}}?portrait={{portrait}}&color={{color}}&title={{title}}&byline={{byline}}&autoplay={{autoplay}}&loop={{loop}}&api={{api}}&player_id={{player_id}}"
-        width="{{width}}"
-        height="{{height}}"
-        frameborder="{{frameborder}}" webkitAllowFullScreen mozallowfullscreen allowfullscreen>
-      </iframe>
-      <p>{{caption}}</p>
-    </div>
-
     <iron-ajax id="vimeoAPI" auto
       url="http://vimeo.com/api/v2/video/{{videoid}}.json"
       handle-as="json"
       on-response="{{handleResponse}}">
     </iron-ajax>
+    <div id="wrapper">
+      <iframe
+        src="//player.vimeo.com/video/{{videoid}}?autopause={{autopause}}&autoplay={{autoplay}}&badge={{badge}}&byline={{byline}}&color={{color}}&loop={{loop}}&player_id={{player_id}}&portrait={{portrait}}&title={{title}}" width="{{width}}" height="{{height}}" frameborder="{{frameborder}}" webkitAllowFullScreen mozallowfullscreen allowfullscreen>
+      </iframe>
+      <p>{{caption}}</p>
+    </div>
   </template>
-
+<!--
+ -->
   <script>
     Polymer({
       is: "athena-vimeo",
@@ -46,20 +43,77 @@ You can specify `height` or `width` or be mobile friendly and use `responsive` i
        * @event athena-vimeo-response
        */
 
-
-
       properties: {
         /**
-         * The ID of the video. For exemple.
+         * Whether this video will pause when other video content on the page plays
          *
-         * This is actually the only thing you have to define yourself
-         *
-         * @attribute videoid
-         * @type string
+         * @attribute autopause
+         * @type number
          */
-        videoid: {
+        autopause: {
+          type: Number,
+          default: 1
+        },
+
+        /**
+         * Play the video automatically on load. Defaults to 0.
+         * Note that this won’t work on some devices and it's bad accessibility practice.
+         *
+         * @attribute autoplay
+         * @type number
+         * @default 0
+         */
+        autoplay: {
+          type: Number,
+          value: 0
+        },
+
+        /**
+         * Display video badge
+         *
+         * @attribute badge
+         * @type number
+         * @default 1
+         */
+        badge: {
+          type: Number,
+          value: 1
+        },
+
+        /**
+         * Show the user’s byline on the video.
+         *
+         * @attribute width
+         * @type number
+         */
+        byline: {
+          type: Number,
+          value: '0'
+        },
+
+        /**
+         * Specify the color of the video controls. Defaults to 00adef.
+         * Make sure that you don’t include the #.
+         *
+         * @attribute color
+         * @type number
+         * @default 00adef
+         */
+        color: {
           type: String,
-          value: ''
+          value: '00adef'
+        },
+
+        /**
+         * Define if the player make a loop or not
+         *
+         * @attribute loop
+         * @type number
+         * @default 0
+         */
+        loop: {
+          type: Number,
+          value: 0
         },
 
         /**
@@ -78,45 +132,9 @@ You can specify `height` or `width` or be mobile friendly and use `responsive` i
          *
          * @attribute portrait
          * @type number
-         * @default 1
+         * @default 0
          */
         portrait: {
-          type: Number,
-          value: 0
-        },
-
-        /**
-         * Specify the color of the video controls. Defaults to 00adef. Make sure that you don’t include the #.
-         *
-         * @attribute color
-         * @type number
-         * @default 0
-         */
-        color: {
-          type: String,
-          value: '00adef'
-        },
-
-        /**
-         * Play the video automatically on load. Defaults to 0. Note that this won’t work on some devices.
-         *
-         * @attribute autoplay
-         * @type number
-         * @default 0
-         */
-        autoplay: {
-          type: Number,
-          value: 0
-        },
-
-        /**
-         * Define if the player make a loop or not
-         *
-         * @attribute loop
-         * @type number
-         * @default 0
-         */
-        loop: {
           type: Number,
           value: 0
         },
@@ -128,28 +146,19 @@ You can specify `height` or `width` or be mobile friendly and use `responsive` i
          * @type number
          */
         title: {
-          type: String,
-          value: ''
+          type: Number,
+          value: '1'
         },
 
         /**
-         * Show the user’s byline on the video.
+         * The ID of the video. For exemple.
          *
-         * @attribute width
-         * @type number
-         */
-        byline: {
-          type: String,
-          value: ''
-        },
-
-        /**
-         * Show the user’s byline on the video.
+         * This is actually the only thing you have to define yourself
          *
-         * @attribute width
-         * @type number
+         * @attribute videoid
+         * @type string
          */
-        api: {
+        videoid: {
           type: String,
           value: ''
         },
@@ -179,18 +188,6 @@ You can specify `height` or `width` or be mobile friendly and use `responsive` i
         },
 
         /**
-         * Control the border width of the frame
-         *
-         * @attribute frameborder
-         * @type number
-         * @default 0
-         */
-        frameborder: {
-          type: Number,
-          value: 0
-        },
-
-        /**
          * Toggle the responsiveness of the player
          *
          * @attribute responsive
@@ -198,8 +195,7 @@ You can specify `height` or `width` or be mobile friendly and use `responsive` i
          * @default 0
          */
         responsive: {
-          type: Number,
-          value: 0
+          type: Number
         },
 
         /**
@@ -211,6 +207,18 @@ You can specify `height` or `width` or be mobile friendly and use `responsive` i
         caption: {
           type: String,
           value: ''
+        },
+
+        /**
+         * Do we show the border for the iframe?
+         *
+         * @attribute frameborder
+         * @type number
+         * @default 0
+         */
+        frameborder: {
+          type: Number,
+          value: 0
         }
       },
 
@@ -220,7 +228,8 @@ You can specify `height` or `width` or be mobile friendly and use `responsive` i
         console.log(this)
 
         // If both height and width ares missing, be responsive
-        if( !this.height && !this.width ){
+        // Always give user the option to change
+        if( !this.height && !this.width ) {
           this.responsive = 1
         }
 
