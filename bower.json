@@ -1,0 +1,32 @@
+{
+  "name": "athena-vimeo",
+  "version": "0.1.0",
+  "authors": [
+    "Carlos Araya <carlos.araya@gmail.com"
+  ],
+  "description": "Playing Vimeo videos using Polymer",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "vimeo",
+    "responsive",
+    "video"
+  ],
+  "main": "vimeo-player.html",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "/.*",
+    "/tests/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0",
+    "iron-component-page": "PolymerElements/iron-component-page#~1.1.2"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^0.7.3"
+  },
+  "private": true
+
+}

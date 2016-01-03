@@ -1,0 +1,252 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+`athena-vimeo` allow you to embed videos from vimeo.com
+
+    <athena-vimeo videoid="123456789"></athena-vimeo>
+
+You can specify `height` or `width` or be mobile friendly and use `responsive` instead
+
+@element athena-vimeo
+@status beta
+@demo demo/index.html
+-->
+
+<dom-module id="athena-vimeo">
+  <link rel="stylesheet" href="athena-vimeo.css" type="text/css">
+
+  <template>
+    <iron-ajax id="vimeoAPI" auto
+      url="http://vimeo.com/api/v2/video/{{videoid}}.json"
+      handle-as="json"
+      on-response="{{handleResponse}}">
+    </iron-ajax>
+    <div id="wrapper">
+      <iframe
+        src="//player.vimeo.com/video/{{videoid}}?autopause={{autopause}}&autoplay={{autoplay}}&badge={{badge}}&byline={{byline}}&color={{color}}&loop={{loop}}&player_id={{player_id}}&portrait={{portrait}}&title={{title}}" width="{{width}}" height="{{height}}" frameborder="{{frameborder}}" webkitAllowFullScreen mozallowfullscreen allowfullscreen>
+      </iframe>
+      <p>{{caption}}</p>
+    </div>
+  </template>
+<!--
+ -->
+  <script>
+    Polymer({
+      is: "athena-vimeo",
+      /**
+       * Fired when the player get the response from Vimeo API
+       *
+       * You received the raw event triggered from the Polymer element (check the demo,
+       * to deal with the Vimeo response object.
+       *
+       * @event athena-vimeo-response
+       */
+
+      properties: {
+        /**
+         * Whether this video will pause when other video content on the page plays
+         *
+         * @attribute autopause
+         * @type number
+         */
+        autopause: {
+          type: Number,
+          default: 1
+        },
+
+        /**
+         * Play the video automatically on load. Defaults to 0.
+         * Note that this won’t work on some devices and it's bad accessibility practice.
+         *
+         * @attribute autoplay
+         * @type number
+         * @default 0
+         */
+        autoplay: {
+          type: Number,
+          value: 0
+        },
+
+        /**
+         * Display video badge
+         *
+         * @attribute badge
+         * @type number
+         * @default 1
+         */
+        badge: {
+          type: Number,
+          value: 1
+        },
+
+        /**
+         * Show the user’s byline on the video.
+         *
+         * @attribute width
+         * @type number
+         */
+        byline: {
+          type: Number,
+          value: '0'
+        },
+
+        /**
+         * Specify the color of the video controls. Defaults to 00adef.
+         * Make sure that you don’t include the #.
+         *
+         * @attribute color
+         * @type number
+         * @default 00adef
+         */
+        color: {
+          type: String,
+          value: '00adef'
+        },
+
+        /**
+         * Define if the player make a loop or not
+         *
+         * @attribute loop
+         * @type number
+         * @default 0
+         */
+        loop: {
+          type: Number,
+          value: 0
+        },
+
+        /**
+         * An optional unique id for the player that will be passed back with all Javascript API responses.
+         *
+         * @attribute player_id
+         * @type string
+         */
+        player_id: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * Show the user’s portrait on the video.
+         *
+         * @attribute portrait
+         * @type number
+         * @default 0
+         */
+        portrait: {
+          type: Number,
+          value: 0
+        },
+
+        /**
+         * Display or not the title of the video. Vimeo PLUS users have power to force this value
+         *
+         * @attribute title
+         * @type number
+         */
+        title: {
+          type: Number,
+          value: '1'
+        },
+
+        /**
+         * The ID of the video. For exemple.
+         *
+         * This is actually the only thing you have to define yourself
+         *
+         * @attribute videoid
+         * @type string
+         */
+        videoid: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The Width value of the iframe, if `responsive` is on the value will not be used
+         *
+         * @attribute width
+         * @type number
+         * @default 550
+         */
+        width: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The Height value of the iframe, if `responsive` is on the value will not be used
+         *
+         * @attribute height
+         * @type number
+         * @default 300
+         */
+        height: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * Toggle the responsiveness of the player
+         *
+         * @attribute responsive
+         * @type number
+         * @default 0
+         */
+        responsive: {
+          type: Number
+        },
+
+        /**
+         * The caption displayed below the video
+         *
+         * @attribute caption
+         * @type string
+         */
+        caption: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * Do we show the border for the iframe?
+         *
+         * @attribute frameborder
+         * @type number
+         * @default 0
+         */
+        frameborder: {
+          type: Number,
+          value: 0
+        }
+      },
+
+      ready: function(){
+
+        console.log(this.videoid)
+        console.log(this)
+
+        // If both height and width ares missing, be responsive
+        // Always give user the option to change
+        if( !this.height && !this.width ) {
+          this.responsive = 1
+        }
+
+        // If the player is responsive, add the .embed-container class
+        if( this.responsive ){
+          this.$.wrapper.className = 'embed-container'
+        }
+      },
+
+      handleResponse: function(event, data, raw){
+        data = data.response
+        if( !data || (data.length < 1) || !data[0] ){
+          return
+        }
+
+        this.fire('athena-vimeo-response', {data: data[0]})
+      }
+    })
+  </script>
+</dom-module>
